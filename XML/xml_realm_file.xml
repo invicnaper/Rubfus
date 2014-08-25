@@ -1,0 +1,7 @@
+<rubfus type="realm">
+  <info>
+    <server>Rubfus</server>
+    <max_connection>500</max_connection>
+    <port>414</port>
+  </info>
+</rubfus>
