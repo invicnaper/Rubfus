@@ -1,0 +1,9 @@
+<plugin name="lool">
+  <info>
+    <file>test.rb</file>
+    <main>function</main>
+    <description>rien</description>
+    <author>Test</author>
+    <executed>first</executed>
+  </info>
+</plugin>
