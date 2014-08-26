@@ -2,6 +2,14 @@
   <info>
     <server>Rubfus</server>
     <max_connection>500</max_connection>
+    <host>127.0.0.1</host>
     <port>414</port>
   </info>
+  <console>
+    <show_debug>True</show_debug>
+    <show_server>True</show_server>
+    <show_mysql>True</show_mysql>
+    <show_packet>True</show_packet>
+    <show_action_game>True</show_action_game>
+  </console>
 </rubfus>

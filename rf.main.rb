@@ -13,6 +13,7 @@ require File.expand_path('../Utils/rf.console',__FILE__)
 require File.expand_path('../XML/rf.xml_loader',__FILE__)
 require File.expand_path('../Network/rf.sockets',__FILE__)
 require File.expand_path('../Utils/rf.all',__FILE__)
+require File.expand_path('../Plugins/rf.plugin',__FILE__)
 
 begin
 
@@ -26,6 +27,9 @@ begin
 
   #loading all Xml files
   rf_xml = RF_Xml.load_all
+
+  #loading all Plugins
+  plugin = Plugins.load_all
 
   #initialising sockets
   my_client = RF_Sockets.new_socket

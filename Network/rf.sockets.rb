@@ -11,7 +11,10 @@
 require 'socket'
 require File.expand_path('../../Utils/rf.console',__FILE__)
 require File.expand_path('../../Utils/rf.all',__FILE__)
+require File.expand_path('../Messages/rf.Identification',__FILE__)
+require File.expand_path('../Messages/rf.HelloConnect',__FILE__)
 require_relative 'rf.message'
+
 
 module RF_Sockets
   CLIENT_CODE_CONNECTED = 1
@@ -52,9 +55,11 @@ module RF_Sockets
     while true
       Thread.new(socketServer.accept) do |connection|
         puts Console.print_action("New client connected : #{connection.peeraddr[2]}")
-        #hello_client(connection)
         begin
           while connection
+            data_arrival(connection.recv(1024))
+            send_unpacked(connection,ProtocolRequired.build_packet, "Protocol Required")
+            send_unpacked(connection,HelloConnect.build_packet, "Hello Connect")
             incomingData = connection.gets("\0")
             if incomingData != nil
               incomingData = incomingData.chomp
@@ -73,7 +78,8 @@ module RF_Sockets
           end
         rescue Exception => e
           # Displays Error Message
-          puts "#{ e } (#{ e.class })"
+          puts Console.print_error("#{ e } (#{ e.class })")
+          puts Console.print_action("client : #{connection.peeraddr[2]} Disconnected")
         ensure
           disconnect(connection)
           puts "ensure: Closing"
@@ -81,8 +87,19 @@ module RF_Sockets
       end
     end
   end
-  def RF_Sockets.send_packets(my_client, packet)
-    my_client.send(packet)
+  def RF_Sockets.data_arrival(data)
+    p = data.unpack('B*')       #we unpack the packet to have binary
+    #we convert the result from base 2 to base 16 to have hex packet
+    hex_data = "0" + p[0].convert_base(2,16)
+    puts Console.print_packet("receive : #{hex_data}")
+  end
+  def RF_Sockets.send_packets(my_client, packet, type)
+    Console.print_packet("Sending #{type} Packet")
+    my_client.write([packet].pack('H*'))
+  end
+  def RF_Sockets.send_unpacked(my_client, packet, type)
+    Console.print_packet("Sending #{type} Packet")
+    my_client.write(packet)
   end
   def RF_Sockets.hello_client(my_client)
     @rsa_key = RF_Rsa.generate_key

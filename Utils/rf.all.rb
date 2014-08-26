@@ -15,12 +15,20 @@ require 'openssl'
 
 $usec_first_time = -1
 $sec_first_time = -1
+class String
+  def convert_base(from, to)
+    self.to_i(from).to_s(to)
+  end
+end
 module RF_Time
   def RF_Time.draw_time
     #using usec and sec
     @loaded_usec = Time.new.usec - $usec_first_time
     @loaded_sec = Time.new.sec - $sec_first_time
     puts Console.print_action("Loaded on #{@loaded_usec} usec => #{@loaded_sec} sec")
+  end
+  def RF_Time.this_time
+    return Time.now.ctime
   end
 end
 module RF_Hash
@@ -46,5 +54,14 @@ module RF_util
   def RF_util.random_string
     random_string = rand(30**length).to_s(30)
     return random_string
+  end
+  def RF_util.hex_to_deci(hexa)
+    #hex = base 16
+    #deci = base 10
+
+  end
+  def RF_util.deci_to_hexa(deci)
+    #hex = base 16
+    #deci = base 10
   end
 end

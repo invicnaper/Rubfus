@@ -51,6 +51,9 @@ module Console
   def Console.print_packet(string)
     puts "[" + "packet".brown + "] : #{string}"
   end
+  def Console.print_plugin(string)
+    puts "[" + "plugin".brown + "] : #{string}"
+  end
   def Console.header
     puts "=================================================".cyan
     puts "        RUBFUS        ".cyan
